@@ -1,0 +1,30 @@
+version: '3.8'
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+  flask-app:
+    build:
+      context: ./flask-app
+      dockerfile: Dockerfile
+    networks:
+      - app_network
+    volumes: # on suppose que l'appli et ses logs / données / config sont dans ./flask-app
+      - flask_data:/app/data
+      - flask_logs:/app/logs
+      - ./flask-app/config:/app/config:ro
+
+
+  nginx-proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    networks:
+      - app_network
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - flask-app
