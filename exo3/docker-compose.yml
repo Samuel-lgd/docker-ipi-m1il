@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build:
+      context: ./flask-app
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      # on suppose que l'appli log dans le dossier ./flask-app/logs et que ses données sont dans ./flask-app/data
+      - flask_data:/app/data
+      - flask_logs:/app/logs
+      - ./flask-app/config:/app/config:ro
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+
+volumes:
+  flask_data:
+    driver: local
+  flask_logs:
+    driver: local

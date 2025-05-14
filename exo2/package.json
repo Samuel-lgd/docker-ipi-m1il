@@ -1,0 +1,11 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "Application exemple",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r src/* dist/"
+  },
+  "author": "",
+  "license": "MIT"
+}
